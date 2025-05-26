@@ -2,18 +2,31 @@
     margin: 0;
     font-family: 'Inter', Arial, sans-serif;
     min-height: 100vh;
+
   }
   
   html {
     height: 100%;
+    width: 100%;
+    overflow-x: hidden;             /* hides side scroll */
+    overscroll-behavior: none;      /* disables rubber-banding */
+    touch-action: manipulation;  
   }
-  
+
+  .main-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;               /* prevents internal white bounce */
+    position: relative;
+  }
   .background-container {
     min-height: 100%;
     background: linear-gradient(to bottom, #000000,#000000,#000000,#000000, #000000,#000);
     background-repeat: no-repeat;
     background-size: cover;
   }
+
   .navbar {
     background-color: transparent; /* Transparent background */
     padding: 1rem 2rem;
@@ -74,6 +87,7 @@
     width: 100%;
     height: auto;
     border-radius: 10px;
+    
   }
   .text-overlay {
     position: absolute;
@@ -369,7 +383,7 @@
   }
 
 .service-box-ui {
-  width: clamp(400px, 40vw, 800px);
+  width: clamp(300px, 40vw, 800px);
   aspect-ratio: 1 / 0.5;
   /* margin-top: 10rem; */
 
@@ -396,7 +410,7 @@
   
 .service-box-cross {
 
-    width: clamp(400px, 40vw, 800px);
+    width: clamp(300px, 40vw, 800px);
     aspect-ratio: 1 / 0.5;
     margin: 0 auto;
   
@@ -419,7 +433,7 @@
     transition: transform 0.3s ease;
   }
   .service-box-dj {
-    width: clamp(400px, 40vw, 800px);
+    width: clamp(300px, 40vw, 800px);
     aspect-ratio: 1 / 0.5;
     margin: 0 auto;
   
@@ -442,7 +456,7 @@
     transition: transform 0.3s ease;
   }
   .service-box-postgres {
-    width: clamp(400px, 40vw, 800px);
+    width: clamp(300px, 40vw, 800px);
     aspect-ratio: 1 / 0.5;
     margin: 0 auto;
   
