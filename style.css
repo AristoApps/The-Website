@@ -2,7 +2,9 @@
     margin: 0;
     font-family: 'Inter', Arial, sans-serif;
     min-height: 100vh;
-
+    background-color: #000;
+    overscroll-behavior: none;
+    touch-action: pan-y;
   }
   
   html {
@@ -11,6 +13,12 @@
     overflow-x: hidden;             /* hides side scroll */
     overscroll-behavior: none;      /* disables rubber-banding */
     touch-action: manipulation;  
+    background-color: #000;
+    overscroll-behavior: none;
+    touch-action: pan-y;
+  }
+  * {
+    background-color: transparent;
   }
 
   .main-wrapper {
