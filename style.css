@@ -228,6 +228,24 @@
     color: white;
     font-family: 'Inter', sans-serif;
   }
+  .content-section-rightsreserved {
+    margin-top: 10rem;
+    padding: 4rem 2rem;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+  .content-section-iagree {
+    margin-top: 10rem;
+    padding: 4rem 2rem;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
 
   .content-section-getintouch {
     margin-top: 15rem;
@@ -259,6 +277,16 @@
     color: transparent;
   }
   .content-section-getintouch h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section-iagree h3 {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: clamp(1.2rem, 2.5vw, 2.5rem);
@@ -309,6 +337,18 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+  }
+  .content-section-rightsreserved h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    /* margin-top: -10rem; */
+    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+    /* margin-bottom: -2rem; */
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 1rem;
   }
   .content-section h5 {
     font-family: 'Inter', sans-serif;
@@ -704,6 +744,7 @@
     transition: background 0.2s;
     font-family: 'Inter', sans-serif;
     font-weight: 300;
+    margin-bottom: -5rem;
 
 
   }
@@ -731,4 +772,5 @@ textarea:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
 
