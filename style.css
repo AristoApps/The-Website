@@ -238,13 +238,17 @@
     font-family: 'Inter', sans-serif;
   }
   .content-section-iagree {
-    margin-top: 10rem;
     padding: 4rem 2rem;
-    max-width: 900px;
+    /* max-width: 900px; */
     /* margin: 0 auto; */
     text-align: center;
     color: white;
     font-family: 'Inter', sans-serif;
+    width: 15px;   /* width of the checkbox */
+    height: 15px;  /* height of the checkbox */
+    /* vertical-align: middle; aligns checkbox nicely with text */
+    cursor: pointer; /* changes cursor to pointer for better UX */
+    /* Optional: add margin for spacing */
   }
 
   .content-section-getintouch {
