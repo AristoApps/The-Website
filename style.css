@@ -83,7 +83,7 @@
   }
   @media (max-width: 640px) {
     .main-content {
-      margin-top: 8rem; /* More space from top */
+      margin-top: 6rem; /* More space from top */
     }
   }
   
