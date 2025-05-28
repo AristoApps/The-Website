@@ -146,7 +146,7 @@
 
   .feature-row {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(0.6rem, 1.5vw, 1.2rem); /* scales with screen */
+    font-size: clamp(0.3rem, 1.5vw, 1.2rem); /* scales with screen */
     font-weight: 400;
     display: flex;
     justify-content: center;
