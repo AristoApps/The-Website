@@ -146,7 +146,7 @@
 
   .feature-row {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(0.3rem, 1.5vw, 1.2rem); /* scales with screen */
+    font-size: clamp(0.6rem, 1.5vw, 1.2rem); /* scales with screen */
     font-weight: 400;
     display: flex;
     justify-content: center;
@@ -162,7 +162,7 @@
   /* Reduce gap on small screens */
 @media (max-width: 600px) {
     .feature-row {
-      gap: 2rem;
+      gap: 1rem;
     }
   }
   
@@ -772,5 +772,46 @@ textarea:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+/* 
+.feature-row-wrapper {
+  overflow: hidden;
+  width: 40%;
+  padding: 1rem 0;
+  position: relative;
+}
 
+.feature-row-track {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
 
+.feature-row {
+  display: inline-flex;
+  gap: 3rem;
+  animation: scroll-left 15s linear infinite;
+  align-items: center;
+}
+
+.gradient-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.3rem, 1.5vw, 1.2rem);
+  font-weight: 400;
+  color: white;
+  white-space: nowrap;
+}
+
+.divider {
+  color: #999;
+}
+
+/* Smooth infinite scroll */
+/* @keyframes scroll-left {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}  */
