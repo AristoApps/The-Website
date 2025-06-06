@@ -76,9 +76,29 @@
   .image-wrapper {
     width: 100%;            /* Relative to viewport or parent */
     max-width: 800px;      /* Match or a bit larger than image max-width */
-
     position: relative;    /* Needed for absolutely positioned overlay */
     min-width: 600px;
+  }
+
+  .stars-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Add fixed canvas that covers the whole viewport */
+  #starsCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .main-content {
@@ -94,14 +114,16 @@
       margin-top: 6rem; /* More space from top */
     }
   }
-  
+
   .center-image {
     display: block;  /* This removes inline gap */
     width: 100%;
     height: auto;
     border-radius: 10px;
-    
+    position: relative;
+    z-index: 2;
   }
+
   .text-overlay {
     position: absolute;
     bottom: -10px;              /* flush to bottom */
@@ -109,8 +131,9 @@
     transform: translateX(-50%);
     text-align: center;
     width: 110%;
-    pointer-events: none;
-  
+    pointer-events: auto;  /* Change to auto to enable hover interactions */
+    perspective: 1000px;
+    z-index: 3;
     /* Optional: no padding/margin so text sticks */
     padding: 0;
     margin: 0;
@@ -129,7 +152,22 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.2s ease-out, text-shadow 0.3s ease;
+    cursor: default;
+    transform-origin: center center;
+  }
 
+  /* Add subtle shine effect when hovering */
+  .gradient-title:hover {
+    background: linear-gradient(to bottom right, #FFFFFF, #BBBBBB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.2),
+      0 0 10px rgba(255, 255, 255, 0.1),
+      0 0 15px rgba(255, 255, 255, 0.05);
   }
 
   .gradient-subtitle {
@@ -185,13 +223,16 @@
     background-color: #555;
   } */
   .divider {
-    width: 1px;
-    height: clamp(1em, 3vw, 1.2em); /* responsive height */
-    background-color: rgba(255, 255, 255, 0.3); /* light and modern */
-  }
+  width: 0.3px;
+  /* height: clamp(1.5em, 4vw, 2em); taller and more visible */
+  color: '#333333'; /* text color */
+  font-weight: bold;
+  font-size: 1.2em;
+  /* text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.5); add glow effect */
+}
 
   .gradient-text-react {
-    background: linear-gradient(to right, #183943, #61DDFF); /* You can change this per item */
+    background: linear-gradient(to right, #61DDFF, #61DDFF); /* You can change this per item */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text; /* Standard syntax */
@@ -212,7 +253,31 @@
     color: transparent;
   }
   .gradient-text-ui {
-    background: linear-gradient(to right, #FF673C, #431d13); /* You can change this per item */
+    background: linear-gradient(to right, #b58aed, #b58aed); /* You can change this per item */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .gradient-text-html {
+    background: linear-gradient(to right, #da754a, #da754a); /* HTML orange */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .gradient-text-css {
+    background: linear-gradient(to right, #5b75d9, #5b75d9); /* CSS blue */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .gradient-text-js {
+    background: linear-gradient(to right, #dfd059, #dfd059); /* JavaScript yellow */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text; /* Standard syntax */
@@ -815,3 +880,111 @@ textarea:-webkit-autofill:focus {
     transform: translateX(-50%);
   }
 }  */
+
+/* …existing styles… */
+
+/* === NEW: glow effect === */
+/* .glow-border {
+  -webkit-text-stroke: 1px #fff;
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.4),
+    0 0 4px rgba(255, 255, 255, 0.4),
+    0 0 6px rgba(255, 255, 255, 0.3);
+} */
+
+/* Marquee container styles */
+/* .marquee-container {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  margin: 1rem auto;
+  overflow: hidden;
+} */
+.marquee-container {
+  position: relative; /* Essential for positioning marquee content inside */
+  width: 90vw;       /* Sets the width to 90% of the viewport width.
+                       * Using `vw` (viewport width) ensures it scales fluidly
+                       * with the screen size. */
+  max-width: 800px;  /* Prevents the container from becoming excessively wide
+                       * on very large screens, ensuring readability and aesthetics. */
+  margin: 1rem auto; /* Centers the container horizontally.
+                       * `1rem` provides a consistent top/bottom margin. */
+  padding: 0 2vw;    /* Adds horizontal padding that scales with the viewport width.
+                       * This prevents the scrolling content from touching the
+                       * left and right edges on smaller screens, improving
+                       * visual appeal and readability. */
+  overflow: hidden;  /* Hides any content that overflows the container,
+                       * which is critical for a scrolling marquee effect. */
+  box-sizing: border-box; /* Ensures that the padding is included within the
+                           * specified `width` and `max-width`, preventing
+                           * unexpected layout shifts. */
+}
+
+/* Create the fade edges */
+.fade-edge {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fade-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0));
+}
+
+.fade-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0));
+}
+
+/* Scrolling row container */
+.feature-row-scrolling {
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  margin-top: 1rem;
+  position: relative; /* Added for animation smoothness */
+}
+
+/* Scrolling content */
+.marquee-content {
+  display: flex;
+  gap: 1.5rem; /* reduced gap to accommodate divider margins */
+  align-items: center;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.6rem, 1.5vw, 1.2rem);
+  font-weight: 400;
+  animation: marquee 30s linear infinite; /* Slowed down for smoother appearance */
+  will-change: transform;
+  width: fit-content; /* Allow content to determine width */
+}
+
+/* Additional class for the cloned content */
+.marquee-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Make sure dividers are visible with proper styling */
+.marquee-content .divider {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px; /* add some space around divider */
+  color: grey; /* text color */
+  font-size: 1rem;
+  font-weight: 200;
+}
+
+/* Animation keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 2)); /* Only move half the width for smoothness */
+  }
+}
