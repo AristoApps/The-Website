@@ -101,6 +101,13 @@
     pointer-events: none;
   }
 
+  /* Hide stars canvas on mobile devices - backup for when JS detection fails */
+  @media (max-width: 768px) {
+    #starsCanvas {
+      display: none !important;
+    }
+  }
+
   .main-content {
     display: flex;
     flex-direction: column;
