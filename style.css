@@ -246,14 +246,14 @@
     color: transparent;
   }
   .gradient-text-postgres {
-    background: linear-gradient(to right, #3C91D7, #3C91D7); /* You can change this per item */
+    background: linear-gradient(to right, #46a3f0, #46a3f0); /* You can change this per item */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text; /* Standard syntax */
     color: transparent;
   }
   .gradient-text-ui {
-    background: linear-gradient(to right, #b58aed, #b58aed); /* You can change this per item */
+    background: linear-gradient(to right, #c598ff, #c598ff); /* You can change this per item */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text; /* Standard syntax */
@@ -261,7 +261,7 @@
   }
 
   .gradient-text-html {
-    background: linear-gradient(to right, #da754a, #da754a); /* HTML orange */
+    background: linear-gradient(to right, #ff9364, #ff9364); /* HTML orange */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text; /* Standard syntax */
@@ -269,7 +269,7 @@
   }
 
   .gradient-text-css {
-    background: linear-gradient(to right, #5b75d9, #5b75d9); /* CSS blue */
+    background: linear-gradient(to right, #7893ff, #7893ff); /* CSS blue */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text; /* Standard syntax */
