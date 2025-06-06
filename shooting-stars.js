@@ -5,6 +5,42 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (!title || !canvas) return; // Exit if elements don't exist
   
+  // Check if the device is mobile - based on screen size and user agent
+  const isMobileDevice = () => {
+    // Check screen width (common mobile breakpoint)
+    const isMobileWidth = window.innerWidth <= 768;
+    
+    // Also check user agent for mobile devices
+    const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Check for touch capability as additional indicator
+    const hasTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    
+    // Consider it a mobile device if either condition is true
+    return (isMobileWidth && hasTouchScreen) || isMobileUserAgent;
+  };
+  
+  // Function to check and update canvas visibility based on device type
+  function updateCanvasVisibility() {
+    if (isMobileDevice()) {
+      // Hide the canvas completely on mobile
+      canvas.style.display = 'none';
+      return true; // Return true if mobile
+    } else {
+      // Show canvas on non-mobile
+      canvas.style.display = 'block';
+      return false; // Return false if not mobile
+    }
+  }
+  
+  // Disable the canvas for mobile devices - if mobile, exit the script entirely
+  if (updateCanvasVisibility()) {
+    // Add listeners for orientation change and resize in case device rotates to landscape
+    window.addEventListener('resize', updateCanvasVisibility);
+    window.addEventListener('orientationchange', updateCanvasVisibility);
+    return; // Exit the script for mobile devices
+  }
+  
   // Set canvas size to match viewport
   function resizeCanvas() {
     canvas.width = window.innerWidth;
