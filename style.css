@@ -928,13 +928,27 @@ textarea:-webkit-autofill:focus {
 }
 
 /* Create the fade edges */
-.fade-edge {
+/* .fade-edge {
   position: absolute;
   top: 0;
   height: 100%;
   width: 120px;
   z-index: 2;
   pointer-events: none;
+} */
+.fade-edge {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 8vw; /* Sets the width to 8% of the viewport width.
+                * This makes it scale directly with the screen size. */
+  min-width: 50px; /* Ensures the fade edge is never smaller than 50px,
+                    * providing a visible effect on very small screens. */
+  max-width: 120px; /* Prevents the fade edge from becoming excessively wide
+                     * on very large screens, maintaining a subtle effect. */
+  z-index: 2; /* Ensures it appears above the content it's fading. */
+  pointer-events: none; /* Allows clicks/interactions to pass through it to
+                          * the content underneath, if applicable. */
 }
 
 .fade-left {
