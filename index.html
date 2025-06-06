@@ -7,10 +7,11 @@
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aristo Apps</title>
-  <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
+    <canvas id="starsCanvas"></canvas>
     <div class="background-container">
   <header>
     
@@ -28,48 +29,48 @@
     <div class="image-wrapper">
         <img src="iphone_new_image.png" alt="Centered Image" class="center-image" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000" />
         <div class="text-overlay">
-          <h1 class="gradient-title" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-          data-aos-offset="0">Aristo Apps</h1>
-          <h3 class="gradient-subtitle" data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-          data-aos-offset="0">Precision. Passion. Perfection</h3>
+          <h1 class="gradient-title glow-border" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1500" data-aos-once="true" data-aos-easing="ease-out-cubic">Aristo Apps</h1>
+          <h3 class="gradient-subtitle" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500" data-aos-once="true" data-aos-easing="ease-out-cubic">Precision. Passion. Perfection</h3>
         </div>
         
     </div>
-
-    <div class="feature-row">
-        <span class="gradient-text-react" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-        data-aos-offset="0" >React Native</span>
-
-      <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-      data-aos-offset="0"></span>
-
-      <span class="gradient-text-django" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-      data-aos-offset="0">Django</span>
-
-      <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-      data-aos-offset="0"></span>
-
-      <span class="gradient-text-postgres" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-      data-aos-offset="0">PostgreSQL</span>
-
-      <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-      data-aos-offset="0"></span>
-
-      <span class="gradient-text-ui" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true"      data-aos-anchor-placement="top-bottom"
-      data-aos-offset="0">Figma</span>
+    <div class="feature-row-wrapper" >
+      <div class="marquee-container">
+        <div class="fade-edge fade-left"></div>
+        <div class="feature-row-scrolling">
+          <div class="marquee-content">
+            <!-- Technology items -->
+            <span class="gradient-text-react" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">React&nbsp;Native</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <span class="gradient-text-django" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">Django</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <span class="gradient-text-postgres" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">PostgreSQL</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <span class="gradient-text-ui" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">Figma</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <span class="gradient-text-html" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">HTML</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <span class="gradient-text-css" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">CSS</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <span class="gradient-text-js" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">JavaScript</span>
+            <span class="divider" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" data-aos-anchor-placement="top-bottom" data-aos-offset="0">|</span>
+            <!-- Our script will clone these items for truly seamless infinite scrolling -->
+          </div>
+        </div>
+        <div class="fade-edge fade-right"></div>
+      </div>
     </div>
-
-    <section id="intro" class="content-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500">
-        <h2>Hi, I’m Nikhil — I design and develop beautiful, scalable mobile apps.</h2>
-        <p>Specialising in premium UI/UX design, fullstack app development, and cross-platform delivery. I transform ideas into elegant, functional applications that deliver exceptional user experiences.</p>
+    <section id="intro" class="content-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500" data-aos-once="false">
+        <h2>Hi, I'm Nikhil — I design and develop beautiful, scalable mobile apps & websites.</h2>
+        <p>Specialising in premium UI/UX design, fullstack app/web development, and cross-platform delivery. I transform ideas into elegant, functional applications that deliver exceptional user experiences.</p>
       </section>
 
-    <section id="about" class="content-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500">
+    <section id="about" class="content-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500" data-aos-once="false">
         <h2>About</h2>
         <h3>Building <b>bold</b> ideas with thoughtful design and scalable code.</h3>
         <p>I combine aesthetic sensibility with technical expertise to create applications that not only look stunning but perform flawlessly. My approach centers on understanding your business goals and translating them into digital experiences that resonate with your audience.</p>
       </section>
-      <section class="card-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800">
+      <section class="card-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800" data-aos-once="false">
         <div class="card">
           <h3 class="card-title">Modern UI</h3>
           <p class="card-text">Elegant interfaces that engage users and enhance brand perception</p>
@@ -85,11 +86,11 @@
           <p class="card-text">Intuitive experiences that keep users coming back</p>
         </div>
       </section>
-      <section id="services" class="content-section-services" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500">
+      <section id="services" class="content-section-services" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500" data-aos-once="false">
         <h2>Services</h2>
         <h5>Comprehensive app development solutions tailored to your specific requirements</h5>
         
-        <div class="services-grid" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500">
+        <div class="services-grid" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500" data-aos-once="false">
 
             <!-- Box 1 -->
             <div class="service-box-ui" >
@@ -151,30 +152,33 @@
           </div>
       </section>
 
-      <section id="some text" class="content-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500">
+      <section id="some text" class="content-section">
         <h2>"Apps are the future — let's build yours beautifully."</h2>
 
       </section>
       <section id="contact" class="content-section-getintouch" >
         <h2>Get in Touch</h2>
-        <h3>Ready to bring your app idea to life? Let’s discuss how we can work together.</h3>
+        <h3>Ready to bring your app idea to life? Let's discuss how we can work together.</h3>
         <p>Email: aristoappsdev@gmail.com</p>
         <!-- <p>Follow us on social media or use the contact form below.</p> -->
         <form id="contact-form" class="contact-form" autocomplete="on">
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
             <textarea name="message" placeholder="Message (optional)"></textarea>
-                        <label style="font-family: 'Inter', sans-serif; font-weight: 100;">
-              <input type="checkbox" required>
+            <label style="font-family: 'Inter', sans-serif; font-weight: 100;">
+              <input type="checkbox" required style="width: 18px; height: 18px; vertical-align: middle; margin-right: 8px;">
               I agree to the <a href="privacypolicy.html" style="color: #43b8dc;">Privacy Policy</a>
             </label>
+            
             <button type="submit">Send</button>
             <div id="form-status"></div>
+            
           </form>
           
       </section>
 
-            <section id="rightsreserved" class="content-section-rightsreserved" >
+
+      <section id="rightsreserved" class="content-section-rightsreserved" >
         <h3>© 2025 AristoApps. All rights reserved.</h3>
       </section>
 
@@ -187,9 +191,20 @@
   </div>
   <script src="contact.js"></script>
   <script src="script.js"></script>
+  <script src="interactive-title.js"></script>
+  <script src="shooting-stars.js"></script>
+  <script src="marquee-scroll.js"></script>
+  <script src="typing-effect.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
-  AOS.init();
+  AOS.init({
+    once: true,
+    offset: 100,
+    duration: 1000,
+    easing: 'ease-out-cubic',
+    delay: 0,
+    startEvent: 'DOMContentLoaded'
+  });
 </script>
 </body>
 </html>
