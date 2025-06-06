@@ -22,14 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // Star properties
   let shootingStars = [];
   let staticStars = [];
-  const maxShootingStars = 5; // Further reduced for fewer shooting stars
-  const staticStarCount = 150; // Keep same number of static stars
+  const maxShootingStars = 5; // Maximum number of shooting stars
+  const staticStarCount = 150; // Number of static stars
   
   // Track if we're hovering
   let isHovering = false;
-  let hoverIntensity = 0; // Value from 0 to 1 for gradual fade in/out
+  let hoverIntensity = 0.6; // Base intensity (stars always visible), max is 1.0
   let lastShootingStarTime = 0; // Track when the last shooting star was created
-  const minTimeBetweenStars = 800; // Minimum milliseconds between new stars
+  const minTimeBetweenStars = 3000; // Increased time between new stars when not hovering
+  const hoverMinTimeBetweenStars = 800; // Faster stars when hovering
   
   // Mouse position for interactive movement
   let mouseX = 0;
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Save original position for reference during movement
         originalX: Math.random() * canvas.width,
         originalY: Math.random() * canvas.height,
-        size: 0.2 + Math.random() * 1.0, // Slightly larger stars
+        size: 0.3 + Math.random() * 1.0, // Increased star size (was 0.2 + random * 1.0)
         blinkSpeed: blinkSpeed,
         opacity: Math.random(),
         phase: Math.random() * Math.PI * 2, // Random starting phase for asynchronous blinking
@@ -116,21 +117,26 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Update shooting stars positions
   function updateShootingStars() {
-    // Faster intensity change for quicker response
+    // Adjust hover intensity - rise quickly when hovering, fall slowly when not
     if (isHovering) {
       hoverIntensity = Math.min(1, hoverIntensity + 0.1);
     } else {
-      hoverIntensity = Math.max(0, hoverIntensity - 0.05); // Slightly faster fade-out
+      // Don't let it fall below the base intensity (0.6)
+      hoverIntensity = Math.max(0.6, hoverIntensity - 0.03);
     }
     
     // Current time for delay check
     const currentTime = Date.now();
     
-    // Only create new stars if enough time has passed since the last one
-    if (hoverIntensity > 0.05 && 
-        shootingStars.length < maxShootingStars && 
-        currentTime - lastShootingStarTime > minTimeBetweenStars &&
-        Math.random() < 0.08 * hoverIntensity) { // Reduced probability
+    // Determine time between stars based on hover state
+    const currentMinTimeBetweenStars = isHovering ? 
+                                       hoverMinTimeBetweenStars : 
+                                       minTimeBetweenStars;
+    
+    // Always create new stars, but at different rates depending on hover state
+    if (shootingStars.length < maxShootingStars && 
+        currentTime - lastShootingStarTime > currentMinTimeBetweenStars &&
+        Math.random() < (isHovering ? 0.1 : 0.02)) { // Different probability based on hover
       
       shootingStars.push(createShootingStar());
       lastShootingStarTime = currentTime;
@@ -167,30 +173,28 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    // Update static stars positions based on mouse movement
-    if (hoverIntensity > 0) {
-      // Smooth transition to target
-      targetX += (mouseX - targetX) * 0.1;
-      targetY += (mouseY - targetY) * 0.1;
+    // Update static stars positions based on mouse movement - always update stars
+    // Smooth transition to target
+    targetX += (mouseX - targetX) * 0.1;
+    targetY += (mouseY - targetY) * 0.1;
+    
+    // Calculate movement factors - increased from 30 to 50 for more movement
+    const maxOffset = isHovering ? 100 : 30; // Maximum pixel offset for movement
+    
+    // Update each static star position
+    staticStars.forEach(star => {
+      // Create parallax effect based on star's depth
+      const moveX = targetX * maxOffset * star.depth;
+      const moveY = targetY * maxOffset * star.depth;
       
-      // Calculate movement factors
-      const maxOffset = 30; // Maximum pixel offset for movement
+      // Move star from its original position
+      star.x = star.originalX + moveX;
+      star.y = star.originalY + moveY;
       
-      // Update each static star position
-      staticStars.forEach(star => {
-        // Create parallax effect based on star's depth
-        const moveX = targetX * maxOffset * star.depth;
-        const moveY = targetY * maxOffset * star.depth;
-        
-        // Move star from its original position
-        star.x = star.originalX + moveX;
-        star.y = star.originalY + moveY;
-        
-        // Create a subtle sinusoidal blinking effect with varied frequencies
-        const time = Date.now() * star.blinkSpeed;
-        star.opacity = 0.2 + (Math.sin(time + star.phase) + 1) * 0.4; // More pronounced blinking
-      });
-    }
+      // Create a subtle sinusoidal blinking effect with varied frequencies
+      const time = Date.now() * star.blinkSpeed;
+      star.opacity = 0.2 + (Math.sin(time + star.phase) + 1) * 0.4; // More pronounced blinking
+    });
   }
   
   // Draw night sky effect
@@ -198,18 +202,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Only draw stars if hovering (no base intensity anymore)
-    if (hoverIntensity <= 0.01) return;
-    
-    // Draw static stars first (background)
+    // Draw static stars (always visible)
     staticStars.forEach(star => {
       // Calculate final opacity based on hover intensity
       const finalOpacity = star.opacity * hoverIntensity;
       
-      if (finalOpacity < 0.05) return; // Skip if barely visible
-      
       // Draw the star with glow
-      const glow = star.size * 2;
+      const glow = star.size * 2.5; // Increased glow size (was 2.0)
       const radialGradient = ctx.createRadialGradient(
         star.x, star.y, 0,
         star.x, star.y, glow
@@ -225,84 +224,82 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Draw star center
       ctx.beginPath();
-      ctx.arc(star.x, star.y, star.size * 0.5, 0, Math.PI * 2);
+      ctx.arc(star.x, star.y, star.size * 0.6, 0, Math.PI * 2); // Increased center size (was 0.5)
       ctx.fillStyle = star.color.replace('0.8', finalOpacity.toString());
       ctx.fill();
     });
     
-    // Draw each shooting star - only if hovering
-    if (hoverIntensity > 0.05) {
-      shootingStars.forEach(star => {
-        // Calculate opacity based on lifetime and hover intensity
-        const lifetimeOpacity = Math.min(1, (star.maxLifetime - star.lifetime) / star.maxLifetime);
-        const opacity = lifetimeOpacity * hoverIntensity;
+    // Draw shooting stars (always visible)
+    shootingStars.forEach(star => {
+      // Calculate opacity based on lifetime and hover intensity
+      const lifetimeOpacity = Math.min(1, (star.maxLifetime - star.lifetime) / star.maxLifetime);
+      const opacity = lifetimeOpacity * hoverIntensity;
+      
+      // Skip if barely visible
+      if (opacity < 0.05) return;
+      
+      // Draw trail
+      if (star.trail.length > 1) {
+        ctx.beginPath();
         
-        // Skip if barely visible
-        if (opacity < 0.05) return;
-        
-        // Draw trail
-        if (star.trail.length > 1) {
-          ctx.beginPath();
-          
-          // Use gradient for trail
-          const gradient = ctx.createLinearGradient(
-            star.trail[0].x, star.trail[0].y,
-            star.x, star.y
-          );
-          
-          const color = star.color.replace('0.5', '0');
-          const endColor = star.color.replace('0.5', opacity.toString());
-          
-          gradient.addColorStop(0, color);
-          gradient.addColorStop(1, endColor);
-          
-          ctx.moveTo(star.trail[0].x, star.trail[0].y);
-          
-          // Draw smooth curve instead of straight lines
-          for (let i = 1; i < star.trail.length; i++) {
-            const point = star.trail[i];
-            
-            // Use quadratic curves for smoother trails
-            if (i < star.trail.length - 1) {
-              const nextPoint = star.trail[i+1];
-              const cpX = (point.x + nextPoint.x) / 2;
-              const cpY = (point.y + nextPoint.y) / 2;
-              ctx.quadraticCurveTo(point.x, point.y, cpX, cpY);
-            } else {
-              ctx.lineTo(point.x, point.y);
-            }
-          }
-          
-          // Set trail style
-          ctx.strokeStyle = gradient;
-          ctx.lineWidth = star.size * 1.0; // Thinner
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-          ctx.stroke();
-        }
-        
-        // Draw star point with glow
-        const glow = star.size * 2.2; // Reduced glow
-        const radialGradient = ctx.createRadialGradient(
-          star.x, star.y, 0,
-          star.x, star.y, glow
+        // Use gradient for trail
+        const gradient = ctx.createLinearGradient(
+          star.trail[0].x, star.trail[0].y,
+          star.x, star.y
         );
         
-        radialGradient.addColorStop(0, star.color.replace('0.5', opacity.toString()));
-        radialGradient.addColorStop(1, star.color.replace('0.5', '0'));
+        const color = star.color.replace('0.5', '0');
+        const endColor = star.color.replace('0.5', opacity.toString());
         
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, glow, 0, Math.PI * 2);
-        ctx.fillStyle = radialGradient;
-        ctx.fill();
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(1, endColor);
         
-        // Draw star center
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size * 0.8, 0, Math.PI * 2); // Smaller center
-        ctx.fillStyle = star.color.replace('0.5', opacity.toString());
-        ctx.fill();
-      });
-    }
+        ctx.moveTo(star.trail[0].x, star.trail[0].y);
+        
+        // Draw smooth curve instead of straight lines
+        for (let i = 1; i < star.trail.length; i++) {
+          const point = star.trail[i];
+          
+          // Use quadratic curves for smoother trails
+          if (i < star.trail.length - 1) {
+            const nextPoint = star.trail[i+1];
+            const cpX = (point.x + nextPoint.x) / 2;
+            const cpY = (point.y + nextPoint.y) / 2;
+            ctx.quadraticCurveTo(point.x, point.y, cpX, cpY);
+          } else {
+            ctx.lineTo(point.x, point.y);
+          }
+        }
+        
+        // Set trail style
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = star.size * 1.0; // Thinner
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+      }
+      
+      // Draw star point with glow
+      const glow = star.size * 2.2; // Reduced glow
+      const radialGradient = ctx.createRadialGradient(
+        star.x, star.y, 0,
+        star.x, star.y, glow
+      );
+      
+      radialGradient.addColorStop(0, star.color.replace('0.5', opacity.toString()));
+      radialGradient.addColorStop(1, star.color.replace('0.5', '0'));
+      
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, glow, 0, Math.PI * 2);
+      ctx.fillStyle = radialGradient;
+      ctx.fill();
+      
+      // Draw star center
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size * 0.8, 0, Math.PI * 2); // Smaller center
+      ctx.fillStyle = star.color.replace('0.5', opacity.toString());
+      ctx.fill();
+    });
   }
   
   // Main animation loop
