@@ -1,0 +1,1164 @@
+  body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    min-height: 100vh;
+    background-color: #000;
+    overscroll-behavior: none;
+    touch-action: pan-y;
+  }
+  
+  html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;             /* hides side scroll */
+    overscroll-behavior: none;      /* disables rubber-banding */
+    touch-action: manipulation;  
+    background-color: #000;
+    overscroll-behavior: none;
+    touch-action: pan-y;
+  }
+  * {
+    background-color: transparent;
+  }
+
+  .main-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;               /* prevents internal white bounce */
+    position: relative;
+  }
+  .background-container {
+    min-height: 100%;
+    background: linear-gradient(to bottom, #000000,#000000,#000000,#000000, #000000,#000);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .navbar {
+    background-color: transparent; /* Transparent background */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: flex-end; /* Align content to the right */
+    align-items: center;
+    height: 60px;
+    position: relative;
+    z-index: 10;
+    
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    text-decoration: none;
+    background: linear-gradient(to right, #bdbdbd, #999999);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: background 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    background: linear-gradient(to right, #ffffff, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .image-wrapper {
+    width: 100%;            /* Relative to viewport or parent */
+    max-width: 800px;      /* Match or a bit larger than image max-width */
+    position: relative;    /* Needed for absolutely positioned overlay */
+    min-width: 600px;
+  }
+
+  .stars-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Add fixed canvas that covers the whole viewport */
+  #starsCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Hide stars canvas on mobile devices - backup for when JS detection fails */
+  @media (max-width: 768px) {
+    #starsCanvas {
+      display: none !important;
+    }
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+  }
+  @media (max-width: 640px) {
+    .main-content {
+      margin-top: 6rem; /* More space from top */
+    }
+  }
+
+  .center-image {
+    display: block;  /* This removes inline gap */
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .text-overlay {
+    position: absolute;
+    bottom: -10px;              /* flush to bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 110%;
+    pointer-events: auto;  /* Change to auto to enable hover interactions */
+    perspective: 1000px;
+    z-index: 3;
+    /* Optional: no padding/margin so text sticks */
+    padding: 0;
+    margin: 0;
+  }
+  
+  
+  .gradient-title {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 300; /* Regular */
+    filter: drop-shadow(110px 110px 110px rgba(0,0,0,0.8));
+    font-size: clamp(4rem, 6vw, 6.8rem);
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+    background: linear-gradient(to bottom right, #FFFFFF, #333333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.2s ease-out, text-shadow 0.3s ease;
+    cursor: default;
+    transform-origin: center center;
+  }
+
+  /* Add subtle shine effect when hovering */
+  .gradient-title:hover {
+    background: linear-gradient(to bottom right, #FFFFFF, #BBBBBB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.2),
+      0 0 10px rgba(255, 255, 255, 0.1),
+      0 0 15px rgba(255, 255, 255, 0.05);
+  }
+
+  .gradient-subtitle {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 300; /* Regular */
+    font-size: clamp(1rem, 2vw, 3rem); /* Responsive font size */
+    margin-top: 1rem;
+    background: linear-gradient(to bottom right, #FFFFFF, #333333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  
+
+  .feature-row {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.6rem, 1.5vw, 1.2rem); /* scales with screen */
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  @media (min-width: 500px) {
+    .feature-row {
+      flex-wrap: nowrap;
+    }
+  }
+  /* Reduce gap on small screens */
+@media (max-width: 600px) {
+    .feature-row {
+      gap: 1rem;
+    }
+  }
+  
+  /* Allow wrapping only on very small screens */
+  @media (max-width: 400px) {
+    .feature-row {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 800px) {
+    header {
+      display: none;
+    }
+  }
+  
+  /* .divider {
+    width: 1px;
+    height: 20px;
+    background-color: #555;
+  } */
+  .divider {
+  width: 0.3px;
+  /* height: clamp(1.5em, 4vw, 2em); taller and more visible */
+  color: '#333333'; /* text color */
+  font-weight: bold;
+  font-size: 1.2em;
+  /* text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.5); add glow effect */
+}
+
+  .gradient-text-react {
+    background: linear-gradient(to right, #61DDFF, #61DDFF); /* You can change this per item */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+  .gradient-text-django {
+    background: linear-gradient(to right, #5FEEB7, #5FEEB7); /* You can change this per item */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+  .gradient-text-postgres {
+    background: linear-gradient(to right, #46a3f0, #46a3f0); /* You can change this per item */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+  .gradient-text-ui {
+    background: linear-gradient(to right, #c598ff, #c598ff); /* You can change this per item */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .gradient-text-html {
+    background: linear-gradient(to right, #ff9364, #ff9364); /* HTML orange */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .gradient-text-css {
+    background: linear-gradient(to right, #7893ff, #7893ff); /* CSS blue */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .gradient-text-js {
+    background: linear-gradient(to right, #dfd059, #dfd059); /* JavaScript yellow */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard syntax */
+    color: transparent;
+  }
+
+  .content-section {
+    margin-top: 10rem;
+    padding: 4rem 2rem;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+  .content-section-rightsreserved {
+    margin-top: 10rem;
+    padding: 4rem 2rem;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+  .content-section-iagree {
+    padding: 4rem 2rem;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    
+  }
+
+  .content-section-getintouch {
+    margin-top: 15rem;
+    padding: 4rem 2rem;
+    /* max-width: 300px; */
+    /* margin: 0 auto; */
+    text-align: left;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+  .content-section-services {
+    margin-top: 10rem;
+    padding: 4rem 2rem;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .content-section-getintouch h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3.3vw, 3.3rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section-getintouch h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section-iagree h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  
+
+  .content-section h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3.3vw, 3.3rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section-services h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3.3vw, 3.3rem);
+    margin-bottom: -1rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section-services h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .content-section-rightsreserved h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    /* margin-top: -10rem; */
+    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+    /* margin-bottom: -2rem; */
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 1rem;
+  }
+  .content-section h5 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 6rem;
+  }
+  .content-section-services h5 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 4rem;
+  }
+  
+  
+  .content-section p, .content-section li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1rem, 2vw, 4rem);
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    line-height: 1.6;
+    /* color: #ccc; */
+  }
+  .content-section-getintouch p, .content-section-getintouch li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1rem, 2vw, 4rem);
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    line-height: 1.6;
+    /* color: #ccc; */
+  }
+  
+  .content-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .content-section li {
+    margin-bottom: 0.75rem;
+  }
+
+  /* services */
+  .content-section-services p, .content-section-services li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1rem, 2vw, 4rem);
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    line-height: 1.6;
+    /* color: #ccc; */
+  }
+  
+  .content-section-services ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .content-section-services li {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Container for all cards */
+  .card-section {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 1rem;
+    margin-top: -5rem;
+  }
+  
+  /* Each card */
+  .card {
+    background: linear-gradient(135deg, rgba(121, 121, 121, 0.2), rgba(0, 0, 0, 0.2));
+    border: 1px solid rgb(45, 45, 45);
+    border-radius: 12px;
+    padding: 2rem;
+    color: white;
+    flex: 1 1 300px;
+    max-width: 350px;
+    transition: transform 0.3s ease, background 0.5s ease, border 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    --border-opacity: 0;
+    --rotate: 0deg;
+    will-change: transform, opacity;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 1px; /* border width */
+    background: linear-gradient(var(--rotate), rgba(255, 255, 255, 0.9), transparent 60%);
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: var(--border-opacity);
+    transition: opacity 0.2s linear;
+    z-index: 1;
+    will-change: transform, opacity;
+    filter: blur(0.5px);
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(72, 72, 72, 0.2), rgba(0, 0, 0, 0.2));
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    filter: blur(8px);
+    transform: translateZ(0);
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    /* border-color: transparent; */
+    border: 1px solid rgb(45, 45, 45);
+  }
+
+  .card:hover::before {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  .card:hover::after {
+    opacity: 1;
+  }
+  
+  /* Card title */
+  .card-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: background 0.3s ease;
+  }
+
+  .card:hover .card-title {
+    background: linear-gradient(to right, #f65f78, #ff9f51);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  
+  /* Card paragraph */
+  .card-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    background: linear-gradient(to right, #FFFFFF, #555555);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    transition: background 0.3s ease;
+  }
+
+  .card:hover .card-text {
+    background: linear-gradient(to right, #f65f78, #ff9f51);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* services */
+  .services-section {
+    padding: 2rem 1rem;
+    max-width: 100px;
+    margin: 0 auto;
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 2rem;
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2, 1fr)); 
+    gap: 2rem;
+    justify-content: center; /* centers grid items horizontally */
+    max-width: 1100px; /* max width to avoid too wide stretch */
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 700px) {
+    .services-grid {
+      grid-template-columns: 1fr; /* single column on small screens */
+    }
+  }
+
+.service-box-ui {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  /* margin-top: 10rem; */
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(255, 126, 111, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
+
+.service-box-cross {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(122, 226, 255, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
+
+.service-box-dj {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(68, 183, 139, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
+
+.service-box-postgres {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(51, 103, 145, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
+
+.service-box-ui::before, .service-box-cross::before, .service-box-dj::before, .service-box-postgres::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px; /* border width */
+  background: linear-gradient(var(--rotate), rgba(255, 255, 255, 0.9), transparent 60%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: var(--border-opacity);
+  transition: opacity 0.2s linear;
+  z-index: 1;
+  will-change: transform, opacity;
+  filter: blur(0.5px);
+}
+
+.service-box-ui:hover, .service-box-cross:hover, .service-box-dj:hover, .service-box-postgres:hover {
+  transform: translateY(-5px);
+}
+
+.service-box-ui:hover::before, .service-box-cross:hover::before, .service-box-dj:hover::before, .service-box-postgres:hover::before {
+  opacity: 1;
+}
+
+/* Preserve specific background for each service box type */
+.service-box-ui::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 126, 111, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-cross::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(122, 226, 255, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-dj::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(68, 183, 139, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-postgres::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(51, 103, 145, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-ui:hover::after, .service-box-cross:hover::after, .service-box-dj:hover::after, .service-box-postgres:hover::after {
+  opacity: 1;
+}
+
+.service-title-container {
+  display: flex;
+  align-items: center;
+  background: #00000050;
+  padding: 0rem 1.5rem; /* adjusted padding */
+  border-radius: 9999px;
+  border: 0.3px solid rgba(101, 101, 101, 0.8);
+  max-width: fit-content;
+  margin: 0 auto; /* centers horizontally */
+  gap: 0.6rem; /* ✅ This creates space between icon and title */
+}
+.service-icon {
+  width: clamp(25px, 4vw, 40px);
+  height: clamp(25px, 4vw, 40px);
+  object-fit: contain;
+}
+
+.service-icon-figma {
+  width: clamp(20px, 3vw, 30px);
+  height: clamp(20px, 3vw, 30px);
+  object-fit: contain;
+}
+
+.service-icon-postgres {
+  width: clamp(25px, 4vw, 40px);
+  height: clamp(25px, 4vw, 40px);
+  object-fit: contain;
+  padding-top: 0.5rem;
+}
+
+
+.service-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+  background: linear-gradient(to right, #FFFFFF, #FFFFFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  
+}
+
+.service-box p {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+}
+.content-section p1, .content-section li {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+  background: linear-gradient(to right, #FFFFFF, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  line-height: 1.6;
+  text-align: left; /* ✅ This aligns text to the left */
+}
+.content-section-services p1, .content-section-services li {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+  background: linear-gradient(to right, #FFFFFF, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  line-height: 1.6;
+  text-align: left; /* ✅ This aligns text to the left */
+}
+.service-list {
+  list-style-type: disc;
+  padding-left: 1.2rem;
+  margin: 0;
+  color: #444;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+/* Start hidden */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px); /* slight slide from bottom */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  /* When visible */
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Contact Me Form */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 400px;
+    margin: 2rem 0;
+  }
+  .contact-form input, .contact-form textarea {
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #000000;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+  }
+  .contact-form button {
+    background: linear-gradient(to right, #000 0%, #000 100%);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.8rem 2rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: 1px solid #444;
+    transition: background 0.2s;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    margin-bottom:1rem;
+
+
+  }
+  .contact-form button:hover {
+    background: linear-gradient(to right, #ffffff 0%, #999999 100%);
+    color: #000;
+  }
+
+  #form-status {
+    margin-top: 1rem;
+    text-align: center; /* ✅ Center text inside the form box */
+    background: linear-gradient(to right, #FFFFFF, #444444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+  }
+
+  input:-webkit-autofill,
+textarea:-webkit-autofill,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+/* 
+.feature-row-wrapper {
+  overflow: hidden;
+  width: 40%;
+  padding: 1rem 0;
+  position: relative;
+}
+
+.feature-row-track {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.feature-row {
+  display: inline-flex;
+  gap: 3rem;
+  animation: scroll-left 15s linear infinite;
+  align-items: center;
+}
+
+.gradient-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.3rem, 1.5vw, 1.2rem);
+  font-weight: 400;
+  color: white;
+  white-space: nowrap;
+}
+
+.divider {
+  color: #999;
+}
+
+/* Smooth infinite scroll */
+/* @keyframes scroll-left {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}  */
+
+/* …existing styles… */
+
+/* === NEW: glow effect === */
+/* .glow-border {
+  -webkit-text-stroke: 1px #fff;
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.4),
+    0 0 4px rgba(255, 255, 255, 0.4),
+    0 0 6px rgba(255, 255, 255, 0.3);
+} */
+
+/* Marquee container styles */
+/* .marquee-container {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  margin: 1rem auto;
+  overflow: hidden;
+} */
+.marquee-container {
+  position: relative; /* Essential for positioning marquee content inside */
+  width: 90vw;       /* Sets the width to 90% of the viewport width.
+                       * Using `vw` (viewport width) ensures it scales fluidly
+                       * with the screen size. */
+  max-width: 800px;  /* Prevents the container from becoming excessively wide
+                       * on very large screens, ensuring readability and aesthetics. */
+  margin: 1rem auto; /* Centers the container horizontally.
+                       * `1rem` provides a consistent top/bottom margin. */
+  padding: 0 2vw;    /* Adds horizontal padding that scales with the viewport width.
+                       * This prevents the scrolling content from touching the
+                       * left and right edges on smaller screens, improving
+                       * visual appeal and readability. */
+  overflow: hidden;  /* Hides any content that overflows the container,
+                       * which is critical for a scrolling marquee effect. */
+  box-sizing: border-box; /* Ensures that the padding is included within the
+                           * specified `width` and `max-width`, preventing
+                           * unexpected layout shifts. */
+}
+
+/* Create the fade edges */
+/* .fade-edge {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+} */
+.fade-edge {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 8vw; /* Sets the width to 8% of the viewport width.
+                * This makes it scale directly with the screen size. */
+  min-width: 50px; /* Ensures the fade edge is never smaller than 50px,
+                    * providing a visible effect on very small screens. */
+  max-width: 120px; /* Prevents the fade edge from becoming excessively wide
+                     * on very large screens, maintaining a subtle effect. */
+  z-index: 2; /* Ensures it appears above the content it's fading. */
+  pointer-events: none; /* Allows clicks/interactions to pass through it to
+                          * the content underneath, if applicable. */
+}
+
+.fade-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0));
+}
+
+.fade-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0));
+}
+
+/* Scrolling row container */
+.feature-row-scrolling {
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  margin-top: 1rem;
+  position: relative; /* Added for animation smoothness */
+}
+
+/* Scrolling content */
+.marquee-content {
+  display: flex;
+  gap: 1.5rem; /* reduced gap to accommodate divider margins */
+  align-items: center;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.6rem, 1.5vw, 1.2rem);
+  font-weight: 400;
+  animation: marquee 30s linear infinite; /* Slowed down for smoother appearance */
+  will-change: transform;
+  width: fit-content; /* Allow content to determine width */
+}
+
+/* Additional class for the cloned content */
+.marquee-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Make sure dividers are visible with proper styling */
+.marquee-content .divider {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px; /* add some space around divider */
+  color: grey; /* text color */
+  font-size: 1rem;
+  font-weight: 200;
+}
+
+/* Animation keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 2)); /* Only move half the width for smoothness */
+  }
+}
