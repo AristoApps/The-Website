@@ -499,14 +499,14 @@
   }
 
   /* Container for all cards */
-    .card-section {
-        display: flex;
-        flex-wrap: wrap; /* Allows wrapping on smaller screens */
-        justify-content: center;
-        gap: 2rem;
-        padding: 3rem 1rem;
-        margin-top: -5rem;
-    }
+  .card-section {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 1rem;
+    margin-top: -5rem;
+  }
   
   /* Each card */
   .card {
@@ -517,12 +517,60 @@
     color: white;
     flex: 1 1 300px;
     max-width: 350px;
-
-    /* backdrop-filter: blur(4px); */
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background 0.5s ease, border 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    --border-opacity: 0;
+    --rotate: 0deg;
+    will-change: transform, opacity;
   }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 1px; /* border width */
+    background: linear-gradient(var(--rotate), rgba(255, 255, 255, 0.9), transparent 60%);
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: var(--border-opacity);
+    transition: opacity 0.2s linear;
+    z-index: 1;
+    will-change: transform, opacity;
+    filter: blur(0.5px);
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(72, 72, 72, 0.2), rgba(0, 0, 0, 0.2));
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    filter: blur(8px);
+    transform: translateZ(0);
+  }
+
   .card:hover {
     transform: translateY(-5px);
+    /* border-color: transparent; */
+    border: 1px solid rgb(45, 45, 45);
+  }
+
+  .card:hover::before {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  .card:hover::after {
+    opacity: 1;
   }
   
   /* Card title */
@@ -535,7 +583,14 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    transition: background 0.3s ease;
+  }
 
+  .card:hover .card-title {
+    background: linear-gradient(to right, #f65f78, #ff9f51);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   
   /* Card paragraph */
@@ -549,8 +604,15 @@
     font-size: clamp(1rem, 2vw, 1.2rem);
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
+    transition: background 0.3s ease;
   }
 
+  .card:hover .card-text {
+    background: linear-gradient(to right, #f65f78, #ff9f51);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 
   /* services */
   .services-section {
@@ -582,197 +644,288 @@
 
 .service-box-ui {
   width: clamp(300px, 40vw, 800px);
-  aspect-ratio: 1 / 0.5;
+  aspect-ratio: auto;
+  min-height: 330px;
   /* margin-top: 10rem; */
-
   margin: 0 auto;
-
   border: 1px solid rgb(45, 45, 45);
   border-radius: 12px;
   padding: 2rem 1.5rem;
-
-  background:
-    radial-gradient(circle at top left, rgba(255, 126, 111, 0.4), transparent 70%),
+  background: radial-gradient(circle at top left, rgba(255, 126, 111, 0.4), transparent 70%),
     linear-gradient(to bottom, #000000, #000000, #000);
   background-repeat: no-repeat;
   background-size: cover;
-
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-
   display: flex;
   flex-direction: column;
   gap: 3rem;
   justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
   transition: transform 0.3s ease;
 }
-  
+
 .service-box-cross {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(122, 226, 255, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
 
-    width: clamp(300px, 40vw, 800px);
-    aspect-ratio: 1 / 0.5;
-    margin: 0 auto;
+.service-box-dj {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(68, 183, 139, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
   
-    border: 1px solid rgb(45, 45, 45);
-    border-radius: 12px;
-    padding: 2rem 1.5rem;
-  
-    background:
-      radial-gradient(circle at top left, rgba(122, 226, 255, 0.4), transparent 70%),
-      linear-gradient(to bottom, #000000, #000000, #000);
-    background-repeat: no-repeat;
-    background-size: cover;
-  
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-  
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    justify-content: flex-start;
-    transition: transform 0.3s ease;
-  }
-  .service-box-dj {
-    width: clamp(300px, 40vw, 800px);
-    aspect-ratio: 1 / 0.5;
-    margin: 0 auto;
-  
-    border: 1px solid rgb(45, 45, 45);
-    border-radius: 12px;
-    padding: 2rem 1.5rem;
-  
-    background:
-      radial-gradient(circle at top left, rgba(68, 183, 139, 0.4), transparent 70%),
-      linear-gradient(to bottom, #000000, #000000, #000);
-    background-repeat: no-repeat;
-    background-size: cover;
-  
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-  
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    justify-content: flex-start;
-    transition: transform 0.3s ease;
-  }
-  .service-box-postgres {
-    width: clamp(300px, 40vw, 800px);
-    aspect-ratio: 1 / 0.5;
-    margin: 0 auto;
-  
-    border: 1px solid rgb(45, 45, 45);
-    border-radius: 12px;
-    padding: 2rem 1.5rem;
-  
-    background:
-      radial-gradient(circle at top left, rgba(51, 103, 145, 0.4), transparent 70%),
-      linear-gradient(to bottom, #000000, #000000, #000);
-    background-repeat: no-repeat;
-    background-size: cover;
-  
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
-  
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    justify-content: flex-start;
-    transition: transform 0.3s ease;
-  }
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
 
+.service-box-postgres {
+  width: clamp(300px, 40vw, 800px);
+  aspect-ratio: auto;
+  min-height: 330px;
+  margin: 0 auto;
+  border: 1px solid rgb(45, 45, 45);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at top left, rgba(51, 103, 145, 0.4), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: flex-start;
+  
+  /* Added for hover effects */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform, opacity;
+  transition: transform 0.3s ease;
+}
 
-.service-box-ui:hover {
+.service-box-ui::before, .service-box-cross::before, .service-box-dj::before, .service-box-postgres::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px; /* border width */
+  background: linear-gradient(var(--rotate), rgba(255, 255, 255, 0.9), transparent 60%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: var(--border-opacity);
+  transition: opacity 0.2s linear;
+  z-index: 1;
+  will-change: transform, opacity;
+  filter: blur(0.5px);
+}
+
+.service-box-ui:hover, .service-box-cross:hover, .service-box-dj:hover, .service-box-postgres:hover {
   transform: translateY(-5px);
 }
-.service-box-cross:hover {
-    transform: translateY(-5px);
-  }
-  .service-box-dj:hover {
-    transform: translateY(-5px);
-  }
-  .service-box-postgres:hover {
-    transform: translateY(-5px);
-  }
-  .service-title-container {
-    display: flex;
-    align-items: center;
-    background: #00000050;
-    padding: 0rem 1.5rem; /* adjusted padding */
-    border-radius: 9999px;
-    border: 0.3px solid rgba(101, 101, 101, 0.8);
-    max-width: fit-content;
-    margin: 0 auto; /* centers horizontally */
-    gap: 0.6rem; /* ✅ This creates space between icon and title */
-  }
-  .service-icon {
-    width: clamp(25px, 4vw, 40px);
-    height: clamp(25px, 4vw, 40px);
-    object-fit: contain;
-  }
-  
-  .service-icon-figma {
-    width: clamp(20px, 3vw, 30px);
-    height: clamp(20px, 3vw, 30px);
-    object-fit: contain;
-  }
-  
-  .service-icon-postgres {
-    width: clamp(25px, 4vw, 40px);
-    height: clamp(25px, 4vw, 40px);
-    object-fit: contain;
-    padding-top: 0.5rem;
-  }
-  
-  
-  .service-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
-    background: linear-gradient(to right, #FFFFFF, #FFFFFF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
 
-    
-  }
-  
-  .service-box p {
-    font-family: Arial, sans-serif;
-    font-size: 1rem;
-    color: #333;
-    margin: 0;
-  }
-  .content-section p1, .content-section li {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: clamp(1.2rem, 1.6vw, 1.6rem);
-    background: linear-gradient(to right, #FFFFFF, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    line-height: 1.6;
-    text-align: left; /* ✅ This aligns text to the left */
-  }
-  .content-section-services p1, .content-section-services li {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: clamp(1.2rem, 1.6vw, 1.6rem);
-    background: linear-gradient(to right, #FFFFFF, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    line-height: 1.6;
-    text-align: left; /* ✅ This aligns text to the left */
-  }
-  .service-list {
-    list-style-type: disc;
-    padding-left: 1.2rem;
-    margin: 0;
-    color: #444;
-    font-family: Arial, sans-serif;
-    font-size: 0.95rem;
-  }
+.service-box-ui:hover::before, .service-box-cross:hover::before, .service-box-dj:hover::before, .service-box-postgres:hover::before {
+  opacity: 1;
+}
 
-  /* Start hidden */
+/* Preserve specific background for each service box type */
+.service-box-ui::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 126, 111, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-cross::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(122, 226, 255, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-dj::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(68, 183, 139, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-postgres::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(51, 103, 145, 0.6), transparent 70%),
+    linear-gradient(to bottom, #000000, #000000, #000);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+  transform: translateZ(0);
+}
+
+.service-box-ui:hover::after, .service-box-cross:hover::after, .service-box-dj:hover::after, .service-box-postgres:hover::after {
+  opacity: 1;
+}
+
+.service-title-container {
+  display: flex;
+  align-items: center;
+  background: #00000050;
+  padding: 0rem 1.5rem; /* adjusted padding */
+  border-radius: 9999px;
+  border: 0.3px solid rgba(101, 101, 101, 0.8);
+  max-width: fit-content;
+  margin: 0 auto; /* centers horizontally */
+  gap: 0.6rem; /* ✅ This creates space between icon and title */
+}
+.service-icon {
+  width: clamp(25px, 4vw, 40px);
+  height: clamp(25px, 4vw, 40px);
+  object-fit: contain;
+}
+
+.service-icon-figma {
+  width: clamp(20px, 3vw, 30px);
+  height: clamp(20px, 3vw, 30px);
+  object-fit: contain;
+}
+
+.service-icon-postgres {
+  width: clamp(25px, 4vw, 40px);
+  height: clamp(25px, 4vw, 40px);
+  object-fit: contain;
+  padding-top: 0.5rem;
+}
+
+
+.service-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+  background: linear-gradient(to right, #FFFFFF, #FFFFFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  
+}
+
+.service-box p {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+}
+.content-section p1, .content-section li {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+  background: linear-gradient(to right, #FFFFFF, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  line-height: 1.6;
+  text-align: left; /* ✅ This aligns text to the left */
+}
+.content-section-services p1, .content-section-services li {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+  background: linear-gradient(to right, #FFFFFF, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  line-height: 1.6;
+  text-align: left; /* ✅ This aligns text to the left */
+}
+.service-list {
+  list-style-type: disc;
+  padding-left: 1.2rem;
+  margin: 0;
+  color: #444;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+/* Start hidden */
 .fade-in {
     opacity: 0;
     transform: translateY(20px); /* slight slide from bottom */
