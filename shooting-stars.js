@@ -359,36 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
     mouseY = (e.clientY - centerY) / (rect.height / 2);
   });
   
-  // Add touch support for mobile devices
-  title.addEventListener('touchmove', function(e) {
-    // Removed preventDefault to allow scrolling
-    isHovering = true;
-    
-    const touch = e.touches[0];
-    // Calculate touch position relative to title center for parallax effect
-    const rect = title.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Calculate percentage from center (-1 to 1)
-    mouseX = (touch.clientX - centerX) / (rect.width / 2);
-    mouseY = (touch.clientY - centerY) / (rect.height / 2);
-  });
-  
-  title.addEventListener('touchstart', function(e) {
-    isHovering = true;
-    
-    const touch = e.touches[0];
-    // Calculate touch position relative to title center for parallax effect
-    const rect = title.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Calculate percentage from center (-1 to 1)
-    mouseX = (touch.clientX - centerX) / (rect.width / 2);
-    mouseY = (touch.clientY - centerY) / (rect.height / 2);
-  });
-  
   title.addEventListener('mouseenter', function() {
     isHovering = true;
   });
@@ -396,14 +366,6 @@ document.addEventListener('DOMContentLoaded', function() {
   title.addEventListener('mouseleave', function() {
     isHovering = false;
     // Reset mouse position to center when leaving
-    mouseX = 0;
-    mouseY = 0;
-  });
-  
-  // Add touch end support
-  title.addEventListener('touchend', function() {
-    isHovering = false;
-    // Reset touch position to center when ending
     mouseX = 0;
     mouseY = 0;
   });
