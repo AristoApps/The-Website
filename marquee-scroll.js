@@ -47,6 +47,15 @@ document.addEventListener('DOMContentLoaded', function() {
     this.style.animationPlayState = 'running';
   });
   
+  // Add touch support for mobile devices
+  marqueeContent.addEventListener('touchstart', function() {
+    this.style.animationPlayState = 'paused';
+  });
+  
+  marqueeContent.addEventListener('touchend', function() {
+    this.style.animationPlayState = 'running';
+  });
+  
   // Adjust animation speed based on screen width for consistent experience
   function adjustSpeed() {
     const screenWidth = window.innerWidth;
