@@ -32,14 +32,43 @@ document.addEventListener("DOMContentLoaded", () => {
     ...document.querySelectorAll('.service-box-ui, .service-box-cross, .service-box-dj, .service-box-postgres')
   ];
   
-  // Track mouse position globally
-  let mouseX = 0;
-  let mouseY = 0;
+  // Track pointer position globally (works for both mouse and touch)
+  let pointerX = 0;
+  let pointerY = 0;
+  let isPointerActive = false;
   
-  // Update mouse position on move
+  // Update pointer position on move (mouse)
   document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+    isPointerActive = true;
+  });
+  
+  // Update pointer position on touch move
+  document.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Prevent default to avoid scrolling issues
+    const touch = e.touches[0];
+    pointerX = touch.clientX;
+    pointerY = touch.clientY;
+    isPointerActive = true;
+  }, { passive: false });
+  
+  // Handle touch start
+  document.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    pointerX = touch.clientX;
+    pointerY = touch.clientY;
+    isPointerActive = true;
+  });
+  
+  // Handle touch end
+  document.addEventListener('touchend', () => {
+    isPointerActive = false;
+  });
+  
+  // Handle mouse leave
+  document.addEventListener('mouseleave', () => {
+    isPointerActive = false;
   });
   
   // Use requestAnimationFrame for smoother updates
@@ -56,23 +85,23 @@ document.addEventListener("DOMContentLoaded", () => {
     elementRects.forEach(({element, rect}) => {
       const proximityThreshold = 150; // Increased for better detection range
       
-      // Calculate distance from mouse to element center
+      // Calculate distance from pointer to element center
       const elementCenterX = rect.left + rect.width / 2;
       const elementCenterY = rect.top + rect.height / 2;
-      const distanceX = mouseX - elementCenterX;
-      const distanceY = mouseY - elementCenterY;
+      const distanceX = pointerX - elementCenterX;
+      const distanceY = pointerY - elementCenterY;
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
       
-      // Check if mouse is inside the element
-      const isInside = mouseX >= rect.left && 
-                       mouseX <= rect.right && 
-                       mouseY >= rect.top && 
-                       mouseY <= rect.bottom;
+      // Check if pointer is inside the element
+      const isInside = pointerX >= rect.left && 
+                       pointerX <= rect.right && 
+                       pointerY >= rect.top && 
+                       pointerY <= rect.bottom;
       
-      if (isInside) {
-        // Calculate angle when mouse is inside the element
-        const x = mouseX - rect.left;
-        const y = mouseY - rect.top;
+      if (isInside && isPointerActive) {
+        // Calculate angle when pointer is inside the element
+        const x = pointerX - rect.left;
+        const y = pointerY - rect.top;
         const angleRad = Math.atan2(y - rect.height/2, x - rect.width/2);
         const angleDeg = angleRad * (180 / Math.PI);
         
@@ -80,8 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
         element.style.setProperty('--rotate', `${angleDeg}deg`);
         element.style.setProperty('--border-opacity', '1');
       } 
-      else if (distance < proximityThreshold + Math.max(rect.width, rect.height) / 2) {
-        // When mouse is near but outside the element, calculate angle from center
+      else if (distance < proximityThreshold + Math.max(rect.width, rect.height) / 2 && isPointerActive) {
+        // When pointer is near but outside the element, calculate angle from center
         const angleRad = Math.atan2(distanceY, distanceX);
         const angleDeg = angleRad * (180 / Math.PI);
         
@@ -92,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         element.style.setProperty('--rotate', `${angleDeg}deg`);
         element.style.setProperty('--border-opacity', smoothedProximity.toFixed(3));
       } else {
-        // Reset when mouse is far away but with a subtle fade
+        // Reset when pointer is far away but with a subtle fade
         element.style.setProperty('--border-opacity', '0');
       }
     });
