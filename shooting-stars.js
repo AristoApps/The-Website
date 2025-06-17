@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Add touch support for mobile devices
   title.addEventListener('touchmove', function(e) {
-    e.preventDefault(); // Prevent default to avoid scrolling issues
+    // Removed preventDefault to allow scrolling
     isHovering = true;
     
     const touch = e.touches[0];
@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculate percentage from center (-1 to 1)
     mouseX = (touch.clientX - centerX) / (rect.width / 2);
     mouseY = (touch.clientY - centerY) / (rect.height / 2);
-  }, { passive: false });
+  });
   
   title.addEventListener('touchstart', function(e) {
     isHovering = true;
