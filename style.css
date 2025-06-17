@@ -3,19 +3,19 @@
     font-family: 'Inter', Arial, sans-serif;
     min-height: 100vh;
     background-color: #000;
-    overscroll-behavior: none;
-    touch-action: pan-y;
+    /* Allow normal scrolling */
+    overscroll-behavior: auto;
+    touch-action: auto;
   }
   
   html {
     height: 100%;
     width: 100%;
     overflow-x: hidden;             /* hides side scroll */
-    overscroll-behavior: none;      /* disables rubber-banding */
-    touch-action: manipulation;  
+    /* Allow normal scrolling */
+    overscroll-behavior: auto;      
+    touch-action: auto;  
     background-color: #000;
-    overscroll-behavior: none;
-    touch-action: pan-y;
   }
   * {
     background-color: transparent;
