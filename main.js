@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Update pointer position on touch move
   document.addEventListener('touchmove', (e) => {
-    e.preventDefault(); // Prevent default to avoid scrolling issues
+    // Using passive event to ensure scrolling works
     const touch = e.touches[0];
     pointerX = touch.clientX;
     pointerY = touch.clientY;
     isPointerActive = true;
-  }, { passive: false });
+  }, { passive: true });
   
   // Handle touch start
   document.addEventListener('touchstart', (e) => {
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pointerX = touch.clientX;
     pointerY = touch.clientY;
     isPointerActive = true;
-  });
+  }, { passive: true });
   
   // Handle touch end
   document.addEventListener('touchend', () => {
