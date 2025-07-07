@@ -1304,3 +1304,15 @@ textarea:-webkit-autofill:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Hide header on mobile devices */
+@media (max-width: 480px) {
+  #site-header {
+    display: none;
+  }
+  
+  /* Adjust main content padding since header is hidden */
+  .main-content {
+    padding-top: 10px;
+  }
+}
