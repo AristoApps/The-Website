@@ -13,8 +13,12 @@
 <body>
     <canvas id="starsCanvas"></canvas>
     <div class="background-container">
-  <header>
-    
+  <header id="site-header">
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <img src="site_logo.png" alt="Aristo Apps Logo" class="logo-image" />
+      </div>
+    </div>
     <nav class="navbar">
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
@@ -72,18 +76,24 @@
       </section>
       <section class="card-section" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800" data-aos-once="false">
         <div class="card">
-          <h3 class="card-title">Modern UI</h3>
-          <p class="card-text">Elegant interfaces that engage users and enhance brand perception</p>
+          <div class="card-content">
+            <h3 class="card-title">Modern UI</h3>
+            <p class="card-text">Elegant interfaces that engage users and enhance brand perception</p>
+          </div>
         </div>
       
         <div class="card">
-          <h3 class="card-title">Solid Backend</h3>
-          <p class="card-text">Robust architecture ensuring reliability, security, and scalability</p>
+          <div class="card-content">
+            <h3 class="card-title">Solid Backend</h3>
+            <p class="card-text">Robust architecture ensuring reliability, security, and scalability</p>
+          </div>
         </div>
       
         <div class="card">
-          <h3 class="card-title">Great UX</h3>
-          <p class="card-text">Intuitive experiences that keep users coming back</p>
+          <div class="card-content">
+            <h3 class="card-title">Great UX</h3>
+            <p class="card-text">Intuitive experiences that keep users coming back</p>
+          </div>
         </div>
       </section>
       <section id="services" class="content-section-services" data-aos="fade-up" data-aos-delay="0" data-aos-duration="1500" data-aos-once="false">
@@ -94,59 +104,67 @@
 
             <!-- Box 1 -->
             <div class="service-box-ui" >
-              <div class="service-title-container">
-                <img src="figma_icon.png" alt="Icon 1" class="service-icon-figma" />
-                <h4 class="service-title">UI/UX Design For Apps</h4>
+              <div class="service-box-content">
+                <div class="service-title-container">
+                  <img src="figma_icon.png" alt="Icon 1" class="service-icon-figma" />
+                  <h4 class="service-title">UI/UX Design For Apps</h4>
+                </div>
+                
+                <p1>Crafting visually stunning interfaces with intuitive user experiences that engage and delight. Every design element is meticulously considered to enhance usability and aesthetic appeal.</p1>
+                <ul class="service-list">
+                  <li>• User research & persona development</li>
+                  <li>• Wireframing & prototyping</li>
+                  <li>• Visual design & branding integration</li>
+                </ul>
               </div>
-              
-              <p1>Crafting visually stunning interfaces with intuitive user experiences that engage and delight. Every design element is meticulously considered to enhance usability and aesthetic appeal.</p1>
-              <ul class="service-list">
-                <li>• User research & persona development</li>
-                <li>• Wireframing & prototyping</li>
-                <li>• Visual design & branding integration</li>
-              </ul>
             </div>
         
             <!-- Box 2 -->
             <div class="service-box-cross">
-              <div class="service-title-container">
-                <img src="react_icon.png" alt="Icon 2" class="service-icon" />
-                <h4 class="service-title">Cross-platform Development</h4>
+              <div class="service-box-content">
+                <div class="service-title-container">
+                  <img src="react_icon.png" alt="Icon 2" class="service-icon" />
+                  <h4 class="service-title">Cross-platform Development</h4>
+                </div>
+                <p1>Building seamless applications that work flawlessly across iOS and Android platforms using React Native. Develop once, deploy everywhere, without compromising on performance or user experience.</p1>
+                <ul class="service-list">
+                  <li>• React Native frontend development</li>
+                  <li>• Native module integration</li>
+                  <li>• Performance optimisation</li>
+                </ul>
               </div>
-              <p1>Building seamless applications that work flawlessly across iOS and Android platforms using React Native. Develop once, deploy everywhere, without compromising on performance or user experience.</p1>
-              <ul class="service-list">
-                <li>• React Native frontend development</li>
-                <li>• Native module integration</li>
-                <li>• Performance optimisation</li>
-              </ul>
             </div>
         
             <!-- Box 3 -->
             <div class="service-box-dj">
-              <div class="service-title-container">
-                <img src="django_icon.png" alt="Icon 3" class="service-icon" />
-                <h4 class="service-title">Backend APIs with Django</h4>
+              <div class="service-box-content">
+                <div class="service-title-container">
+                  <img src="django_icon.png" alt="Icon 3" class="service-icon" />
+                  <h4 class="service-title">Backend APIs with Django</h4>
+                </div>
+                <p1>Developing robust, secure, and scalable backend systems using Django. Create RESTful APIs that power your applications with reliability and performance in mind.</p1>
+                <ul class="service-list">
+                  <li>• API development & documentation</li>
+                  <li>• Authentication & authorization</li>
+                  <li>• Cloud deployment & scaling</li>
+                </ul>
               </div>
-              <p1>Developing robust, secure, and scalable backend systems using Django. Create RESTful APIs that power your applications with reliability and performance in mind.</p1>
-              <ul class="service-list">
-                <li>• API development & documentation</li>
-                <li>• Authentication & authorization</li>
-                <li>• Cloud deployment & scaling</li>
-              </ul>
             </div>
         
             <!-- Box 4 -->
             <div class="service-box-postgres">
-              <div class="service-title-container">
-                <img src="postgres_icon.png" alt="Icon 4" class="service-icon-postgres" />
-                <h4 class="service-title">PostgreSQL Database Integration</h4>
+              <div class="service-box-content">
+                <div class="service-title-container">
+                  <img src="postgres_icon.png" alt="Icon 4" class="service-icon-postgres" />
+                  <h4 class="service-title">PostgreSQL Database Integration</h4>
+                </div>
+                <p1>Implementing efficient, well-structured database solutions using PostgreSQL. Design schemas that ensure data integrity, performance, and scalability for your application.</p1>
+                <ul class="service-list">
+                  <li>• Database design & optimization</li>
+                  <li>• Data migration & integration</li>
+                  <li>• Backup & recovery solutions</li>
+                </ul>
               </div>
-              <p1>Implementing efficient, well-structured database solutions using PostgreSQL. Design schemas that ensure data integrity, performance, and scalability for your application.</p1>
-              <ul class="service-list">
-                <li>• Database design & optimization</li>
-                <li>• Data migration & integration</li>
-                <li>• Backup & recovery solutions</li>
-              </ul>
             </div>
         
           </div>
@@ -196,6 +214,10 @@
   <script src="shooting-stars.js"></script>
   <script src="marquee-scroll.js"></script>
   <script src="typing-effect.js"></script>
+  <script src="card-tilt.js"></script>
+  <script src="emergency-fix.js"></script>
+  <script src="split-text.js"></script>
+  <script src="split-text-fallback.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init({
