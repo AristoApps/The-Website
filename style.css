@@ -36,16 +36,14 @@
   }
 
   .navbar {
-    background-color: transparent; /* Transparent background */
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: flex-end; /* Align content to the right */
-    align-items: center;
-    height: 60px;
-    position: relative;
-    z-index: 10;
-    
-  }
+  background-color: transparent; /* Transparent background */
+  padding-right: 4rem;
+  display: flex;
+  justify-content: flex-end; /* Align content to the right */
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
   
   .nav-links {
     list-style: none;
@@ -219,10 +217,20 @@
   }
 
   @media (max-width: 800px) {
-    header {
-      display: none;
-    }
+  #site-header {
+    padding: 0.3rem 1rem;
+    height: 45px;
   }
+  
+  .logo-wrapper {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .nav-links {
+    gap: 1.2rem;
+  }
+}
   
   /* .divider {
     width: 1px;
@@ -517,13 +525,15 @@
     color: white;
     flex: 1 1 300px;
     max-width: 350px;
-    transition: transform 0.3s ease, background 0.5s ease, border 0.3s ease;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
     position: relative;
     overflow: hidden;
     z-index: 1;
     --border-opacity: 0;
     --rotate: 0deg;
     will-change: transform, opacity;
+    touch-action: none;
   }
 
   .card::before {
@@ -559,14 +569,14 @@
   }
 
   .card:hover {
-    transform: translateY(-5px);
-    /* border-color: transparent; */
+    /* transform is now handled by JavaScript */
     border: 1px solid rgb(45, 45, 45);
   }
 
   .card:hover::before {
     opacity: 1;
     filter: blur(0px);
+    transition: opacity 0.3s ease;
   }
 
   .card:hover::after {
@@ -584,6 +594,7 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
     transition: background 0.3s ease;
+    transform: translateZ(20px);
   }
 
   .card:hover .card-title {
@@ -593,6 +604,15 @@
     color: transparent;
   }
   
+  /* Card content container for 3D effect */
+  .card-content {
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+  }
+
   /* Card paragraph */
   .card-text {
     font-family: 'Inter', sans-serif;
@@ -605,6 +625,7 @@
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
     transition: background 0.3s ease;
+    transform: translateZ(10px);
   }
 
   .card:hover .card-text {
@@ -668,7 +689,9 @@
   --border-opacity: 0;
   --rotate: 0deg;
   will-change: transform, opacity;
-  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
+  touch-action: none;
 }
 
 .service-box-cross {
@@ -696,7 +719,9 @@
   --border-opacity: 0;
   --rotate: 0deg;
   will-change: transform, opacity;
-  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
+  touch-action: none;
 }
 
 .service-box-dj {
@@ -724,7 +749,9 @@
   --border-opacity: 0;
   --rotate: 0deg;
   will-change: transform, opacity;
-  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
+  touch-action: none;
 }
 
 .service-box-postgres {
@@ -752,7 +779,9 @@
   --border-opacity: 0;
   --rotate: 0deg;
   will-change: transform, opacity;
-  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
+  touch-action: none;
 }
 
 .service-box-ui::before, .service-box-cross::before, .service-box-dj::before, .service-box-postgres::before {
@@ -775,7 +804,7 @@
 }
 
 .service-box-ui:hover, .service-box-cross:hover, .service-box-dj:hover, .service-box-postgres:hover {
-  transform: translateY(-5px);
+  /* Transform is now handled by JavaScript */
 }
 
 .service-box-ui:hover::before, .service-box-cross:hover::before, .service-box-dj:hover::before, .service-box-postgres:hover::before {
@@ -1161,4 +1190,117 @@ textarea:-webkit-autofill:focus {
   100% {
     transform: translateX(calc(-100% / 2)); /* Only move half the width for smoothness */
   }
+}
+
+.service-box-content {
+  transform-style: preserve-3d;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  text-align: left; /* ensure all content is left-aligned */
+}
+
+.service-title-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem auto; /* centers horizontally and keeps bottom margin */
+  transform: translateZ(15px);
+}
+
+.service-box-content p1 {
+  transform: translateZ(10px);
+  text-align: left; /* ensure text is left-aligned */
+}
+
+.service-box-content .service-list {
+  transform: translateZ(5px);
+  text-align: left; /* ensure list is left-aligned */
+}
+
+.service-box-content .service-icon,
+.service-box-content .service-icon-figma,
+.service-box-content .service-icon-postgres {
+  transform: translateZ(20px);
+}
+
+.service-box-content .service-title {
+  transform: translateZ(15px);
+}
+
+#site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 2rem;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 50px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-wrapper {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  cursor: pointer;
+  --border-opacity: 0;
+  --rotate: 0deg;
+  will-change: transform;
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translateZ(10px);
+}
+
+.logo-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  padding: 1px;
+  background: linear-gradient(var(--rotate), rgba(255, 255, 255, 0.9), transparent 60%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: var(--border-opacity);
+  transition: opacity 0.2s linear;
+  z-index: 1;
+}
+
+/* Adjust main content to account for fixed header */
+.main-content {
+  padding-top: 60px;
+}
+
+.split-char {
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(to right, #bdbdbd, #999999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links a:hover .split-char {
+  background: linear-gradient(to right, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
