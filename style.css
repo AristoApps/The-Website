@@ -99,11 +99,10 @@
     pointer-events: none;
   }
 
-  /* Always show stars canvas on all devices */
+  /* Hide stars canvas on mobile devices - backup for when JS detection fails */
   @media (max-width: 768px) {
     #starsCanvas {
-      display: block !important;
-      z-index: 1;
+      display: none !important;
     }
   }
 
