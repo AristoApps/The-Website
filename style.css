@@ -1125,6 +1125,8 @@ textarea:-webkit-autofill:focus {
   box-sizing: border-box; /* Ensures that the padding is included within the
                            * specified `width` and `max-width`, preventing
                            * unexpected layout shifts. */
+  perspective: 1000px;
+  cursor: pointer;
 }
 
 /* Create the fade edges */
@@ -1333,4 +1335,26 @@ textarea:-webkit-autofill:focus {
   .main-content {
     padding-top: 10px;
   }
+}
+
+/* 3D Tech Row Styles */
+.marquee-container {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.marquee-content > span:not(.divider) {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, filter 0.15s ease-out;
+  will-change: transform, filter, z-index;
+  position: relative;
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.marquee-content > span:not(.divider):hover {
+  transform: translateZ(30px) scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+  z-index: 5;
 }
