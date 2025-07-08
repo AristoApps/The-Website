@@ -127,6 +127,10 @@
     border-radius: 10px;
     position: relative;
     z-index: 2;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.2s ease-out;
   }
 
   .text-overlay {
