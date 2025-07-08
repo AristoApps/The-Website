@@ -1,3 +1,16 @@
+  /* Force light mode styles regardless of system preference */
+  :root {
+    color-scheme: only light;
+  }
+  
+  /* Explicitly override any browser dark mode adaptations */
+  @media (prefers-color-scheme: dark) {
+    html, body {
+      background-color: #000 !important;
+      color-scheme: only light;
+    }
+  }
+  
   body {
     margin: 0;
     font-family: 'Inter', Arial, sans-serif;
