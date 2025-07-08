@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Find the iPhone image
-  const iphoneImage = document.querySelector('img[src="images/iphone_new_image.png"]');
+  const iphoneImage = document.querySelector('img[src="iphone_new_image.png"]');
   
   if (iphoneImage) {
     // Initialize variables to track animation state
