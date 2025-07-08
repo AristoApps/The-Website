@@ -5,42 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (!title || !canvas) return; // Exit if elements don't exist
   
-  // Check if the device is mobile - based on screen size and user agent
-  const isMobileDevice = () => {
-    // Check screen width (common mobile breakpoint)
-    const isMobileWidth = window.innerWidth <= 768;
-    
-    // Also check user agent for mobile devices
-    const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    // Check for touch capability as additional indicator
-    const hasTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-    
-    // Consider it a mobile device if either condition is true
-    return (isMobileWidth && hasTouchScreen) || isMobileUserAgent;
-  };
-  
-  // Function to check and update canvas visibility based on device type
-  function updateCanvasVisibility() {
-    if (isMobileDevice()) {
-      // Hide the canvas completely on mobile
-      canvas.style.display = 'none';
-      return true; // Return true if mobile
-    } else {
-      // Show canvas on non-mobile
-      canvas.style.display = 'block';
-      return false; // Return false if not mobile
-    }
-  }
-  
-  // Disable the canvas for mobile devices - if mobile, exit the script entirely
-  if (updateCanvasVisibility()) {
-    // Add listeners for orientation change and resize in case device rotates to landscape
-    window.addEventListener('resize', updateCanvasVisibility);
-    window.addEventListener('orientationchange', updateCanvasVisibility);
-    return; // Exit the script for mobile devices
-  }
-  
   // Set canvas size to match viewport
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -63,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Track if we're hovering
   let isHovering = false;
-  let hoverIntensity = 0.6; // Base intensity (stars always visible), max is 1.0
+  let hoverIntensity = 0.8; // Increased base intensity from 0.6 to 0.8 for more visibility when not hovering
   let lastShootingStarTime = 0; // Track when the last shooting star was created
   const minTimeBetweenStars = 3000; // Increased time between new stars when not hovering
   const hoverMinTimeBetweenStars = 800; // Faster stars when hovering
@@ -90,11 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Save original position for reference during movement
         originalX: Math.random() * canvas.width,
         originalY: Math.random() * canvas.height,
-        size: 0.3 + Math.random() * 1.0, // Increased star size (was 0.2 + random * 1.0)
+        size: 0.4 + Math.random() * 1.2, // Increased star size for more visibility
         blinkSpeed: blinkSpeed,
-        opacity: Math.random(),
+        opacity: Math.random() * 0.3 + 0.4, // Increased base opacity range from (0-1) to (0.4-0.7)
         phase: Math.random() * Math.PI * 2, // Random starting phase for asynchronous blinking
-        color: 'hsla(0, 0%, 100%, 0.8)', // Pure white stars
+        color: 'hsla(0, 0%, 100%, 0.9)', // Brighter white stars (increased from 0.8)
         depth: Math.random() * 0.5 + 0.1 // Depth factor for parallax effect (0.1-0.6)
       });
     }
@@ -136,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return {
       x: startPos.x,
       y: startPos.y,
-      size: 0.3 + Math.random() * 0.7, // Further reduced star thickness
+      size: 0.4 + Math.random() * 0.8, // Increased star thickness
       speed: speed,
       velocity: {
         x: Math.cos(angle) * speed,
@@ -146,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
       maxLifetime: maxLifetime, // Dynamic lifetime based on screen size
       trail: [],
       maxTrailLength: 8 + Math.random() * 12, // Shorter trails
-      color: 'hsla(0, 0%, 100%, 0.5)', // Less bright
+      color: 'hsla(0, 0%, 100%, 0.7)', // Brighter shooting stars (increased from 0.5)
       direction: direction.name
     };
   }
@@ -155,10 +119,10 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateShootingStars() {
     // Adjust hover intensity - rise quickly when hovering, fall slowly when not
     if (isHovering) {
-      hoverIntensity = Math.min(1, hoverIntensity + 0.1);
+      hoverIntensity = Math.min(1.2, hoverIntensity + 0.1); // Increase max intensity to 1.2 for extra brightness
     } else {
-      // Don't let it fall below the base intensity (0.6)
-      hoverIntensity = Math.max(0.6, hoverIntensity - 0.03);
+      // Don't let it fall below the base intensity (0.8, increased from 0.6)
+      hoverIntensity = Math.max(0.8, hoverIntensity - 0.03);
     }
     
     // Current time for delay check
@@ -229,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Create a subtle sinusoidal blinking effect with varied frequencies
       const time = Date.now() * star.blinkSpeed;
-      star.opacity = 0.2 + (Math.sin(time + star.phase) + 1) * 0.4; // More pronounced blinking
+      star.opacity = 0.4 + (Math.sin(time + star.phase) + 1) * 0.3; // Increased min opacity from 0.2 to 0.4
     });
   }
   
@@ -244,135 +208,172 @@ document.addEventListener('DOMContentLoaded', function() {
       const finalOpacity = star.opacity * hoverIntensity;
       
       // Draw the star with glow
-      const glow = star.size * 2.5; // Increased glow size (was 2.0)
+      const glow = star.size * 3.0; // Increased glow size from 2.5
       const radialGradient = ctx.createRadialGradient(
         star.x, star.y, 0,
         star.x, star.y, glow
       );
       
-      radialGradient.addColorStop(0, star.color.replace('0.8', finalOpacity.toString()));
-      radialGradient.addColorStop(1, star.color.replace('0.8', '0'));
+      radialGradient.addColorStop(0, `rgba(255, 255, 255, ${finalOpacity})`);
+      radialGradient.addColorStop(0.1, `rgba(225, 245, 255, ${finalOpacity * 0.9})`); // Brighter inner glow
+      radialGradient.addColorStop(0.3, `rgba(180, 215, 255, ${finalOpacity * 0.4})`); // Brighter mid glow
+      radialGradient.addColorStop(1, 'rgba(120, 140, 255, 0)');
       
       ctx.beginPath();
-      ctx.arc(star.x, star.y, glow, 0, Math.PI * 2);
       ctx.fillStyle = radialGradient;
-      ctx.fill();
-      
-      // Draw star center
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.size * 0.6, 0, Math.PI * 2); // Increased center size (was 0.5)
-      ctx.fillStyle = star.color.replace('0.8', finalOpacity.toString());
+      ctx.arc(star.x, star.y, glow, 0, Math.PI * 2);
       ctx.fill();
     });
     
-    // Draw shooting stars (always visible)
+    // Draw shooting stars with trails
     shootingStars.forEach(star => {
-      // Calculate opacity based on lifetime and hover intensity
-      const lifetimeOpacity = Math.min(1, (star.maxLifetime - star.lifetime) / star.maxLifetime);
-      const opacity = lifetimeOpacity * hoverIntensity;
+      // No shooting stars if hover intensity is too low
+      if (hoverIntensity < 0.4) return;
       
-      // Skip if barely visible
-      if (opacity < 0.05) return;
+      // Adjust opacity based on lifetime for fade-in, fade-out effect
+      const lifeProgress = star.lifetime / star.maxLifetime;
+      let opacity;
+      
+      // Fade in quickly, stay visible for most of lifetime, then fade out near end
+      if (lifeProgress < 0.1) {
+        // Fade in over first 10% of lifetime
+        opacity = lifeProgress * 10;
+      } else if (lifeProgress > 0.85) {
+        // Fade out over last 15% of lifetime
+        opacity = (1 - lifeProgress) / 0.15;
+      } else {
+        // Full opacity for middle 75% of lifetime
+        opacity = 1;
+      }
+      
+      // Scale opacity by hover intensity
+      opacity *= hoverIntensity;
+      
+      // Cap opacity with higher max (1.0 instead of 0.8)
+      opacity = Math.min(opacity, 1.0);
+      
+      // No need to draw if opacity is too low
+      if (opacity < 0.03) return;
       
       // Draw trail
       if (star.trail.length > 1) {
-        ctx.beginPath();
-        
-        // Use gradient for trail
+        // Create gradient for the trail
         const gradient = ctx.createLinearGradient(
           star.trail[0].x, star.trail[0].y,
           star.x, star.y
         );
         
-        const color = star.color.replace('0.5', '0');
-        const endColor = star.color.replace('0.5', opacity.toString());
+        gradient.addColorStop(0, `rgba(255, 255, 255, 0)`);
+        gradient.addColorStop(0.3, `rgba(255, 255, 255, ${opacity * 0.15})`); // Brighter trail mid-point
+        gradient.addColorStop(1, `rgba(255, 255, 255, ${opacity})`);
         
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(1, endColor);
+        // Draw the trail as a path
+        ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = star.size;
+        ctx.lineCap = 'round';
         
+        // Draw the path through all trail points
         ctx.moveTo(star.trail[0].x, star.trail[0].y);
-        
-        // Draw smooth curve instead of straight lines
         for (let i = 1; i < star.trail.length; i++) {
-          const point = star.trail[i];
-          
-          // Use quadratic curves for smoother trails
-          if (i < star.trail.length - 1) {
-            const nextPoint = star.trail[i+1];
-            const cpX = (point.x + nextPoint.x) / 2;
-            const cpY = (point.y + nextPoint.y) / 2;
-            ctx.quadraticCurveTo(point.x, point.y, cpX, cpY);
-          } else {
-            ctx.lineTo(point.x, point.y);
-          }
+          ctx.lineTo(star.trail[i].x, star.trail[i].y);
         }
         
-        // Set trail style
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = star.size * 1.0; // Thinner
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
         ctx.stroke();
+        
+        // Draw core of the star
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size * 1.8, 0, Math.PI * 2); // Increased core size from 1.5
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`; 
+        ctx.fill();
+        
+        // Add a subtle glow around the head
+        const headGlow = ctx.createRadialGradient(
+          star.x, star.y, 0,
+          star.x, star.y, star.size * 6 // Increased glow radius from 5
+        );
+        
+        headGlow.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.9})`); // Brighter center (0.7 to 0.9)
+        headGlow.addColorStop(0.5, `rgba(220, 235, 255, ${opacity * 0.4})`); // Brighter mid glow (0.3 to 0.4)
+        headGlow.addColorStop(1, 'rgba(170, 200, 255, 0)'); // Slightly brighter outer edge
+        
+        ctx.beginPath();
+        ctx.fillStyle = headGlow;
+        ctx.arc(star.x, star.y, star.size * 6, 0, Math.PI * 2);
+        ctx.fill();
       }
-      
-      // Draw star point with glow
-      const glow = star.size * 2.2; // Reduced glow
-      const radialGradient = ctx.createRadialGradient(
-        star.x, star.y, 0,
-        star.x, star.y, glow
-      );
-      
-      radialGradient.addColorStop(0, star.color.replace('0.5', opacity.toString()));
-      radialGradient.addColorStop(1, star.color.replace('0.5', '0'));
-      
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, glow, 0, Math.PI * 2);
-      ctx.fillStyle = radialGradient;
-      ctx.fill();
-      
-      // Draw star center
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.size * 0.8, 0, Math.PI * 2); // Smaller center
-      ctx.fillStyle = star.color.replace('0.5', opacity.toString());
-      ctx.fill();
     });
   }
   
-  // Main animation loop
+  // Function to track mouse position
+  function trackMouse(e) {
+    // Convert mouse position to normalized coordinates (-1 to 1)
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+  }
+  
+  // Functions to handle hover state
+  function setHovering() {
+    isHovering = true;
+  }
+  
+  function setNotHovering() {
+    isHovering = false;
+  }
+  
+  // Handle touch events
+  function handleTouchStart(e) {
+    isHovering = true;
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+      mouseY = (touch.clientY / window.innerHeight) * 2 - 1;
+    }
+  }
+  
+  function handleTouchMove(e) {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+      mouseY = (touch.clientY / window.innerHeight) * 2 - 1;
+    }
+  }
+  
+  function handleTouchEnd() {
+    // Keep isHovering true for a short time after touch ends to avoid flickering
+    setTimeout(() => {
+      isHovering = false;
+    }, 500);
+  }
+  
+  // Add event listeners
+  document.addEventListener('mousemove', trackMouse);
+  title.addEventListener('mouseenter', setHovering);
+  title.addEventListener('mouseleave', setNotHovering);
+  
+  // Add touch events for mobile
+  title.addEventListener('touchstart', handleTouchStart);
+  title.addEventListener('touchmove', handleTouchMove);
+  title.addEventListener('touchend', handleTouchEnd);
+  
+  // Animation loop
   function animate() {
-    updateShootingStars();
-    drawNightSky();
+    // Only update and draw if canvas is visible in the viewport
+    const rect = canvas.getBoundingClientRect();
+    if (
+      rect.bottom >= 0 &&
+      rect.right >= 0 &&
+      rect.top <= window.innerHeight &&
+      rect.left <= window.innerWidth
+    ) {
+      updateShootingStars();
+      drawNightSky();
+    }
+    
     requestAnimationFrame(animate);
   }
   
-  // Track hover state and mouse position on the title
-  title.addEventListener('mousemove', function(e) {
-    isHovering = true;
-    
-    // Calculate mouse position relative to title center for parallax effect
-    const rect = title.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Calculate percentage from center (-1 to 1)
-    mouseX = (e.clientX - centerX) / (rect.width / 2);
-    mouseY = (e.clientY - centerY) / (rect.height / 2);
-  });
-  
-  title.addEventListener('mouseenter', function() {
-    isHovering = true;
-  });
-  
-  title.addEventListener('mouseleave', function() {
-    isHovering = false;
-    // Reset mouse position to center when leaving
-    mouseX = 0;
-    mouseY = 0;
-  });
-  
-  // Initialize static stars
+  // Initialize and start animation
   initStaticStars();
-  
-  // Start animation
   animate();
 }); 
