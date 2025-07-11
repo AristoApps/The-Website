@@ -43,7 +43,7 @@
   }
   .background-container {
     min-height: 100%;
-    background: linear-gradient(to bottom, #000000,#000000,#000000,#000000, #000000,#000);
+    background: linear-gradient(to bottom, #000000,#000000,#000000,#000000, #000000,#000000);
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -76,6 +76,25 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
     transition: background 0.3s ease;
+  }
+
+  /* Special gradient for About, Services, and Get in Touch */
+  .nav-links a[href="#about"],
+  .nav-links a[href="#services"],
+  .nav-links a[href="#contact"] {
+    background: linear-gradient(135deg, #f7f7f7, #676767);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .nav-links a[href="#about"]:hover,
+  .nav-links a[href="#services"]:hover,
+  .nav-links a[href="#contact"]:hover {
+    background: linear-gradient(135deg, #ffffff, #676767);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   
   .nav-links a:hover {
